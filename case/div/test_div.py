@@ -1,17 +1,18 @@
 import pytest
 
 from case.base.base import Base
+from case.utils.get_data import get_data
 
 
 class TestDiv(Base):
+    DIV_DATA, DIV_IDS = get_data("div", "P0", "ids")
 
     @pytest.mark.parametrize("a, b, expect",
-                             [[1, 1, 1], [-0.01, -0.02, 0.5], [10, 0.02, 500], [99, 0, "ZeroDivisionError"]],
-                             ids=["整数", "小数", "整数小数", "除数为0"])
+                             DIV_DATA,
+                             ids=DIV_IDS)
     @pytest.mark.P0
     def test_div(self, a, b, expect):
-        with pytest.raises(eval("ZeroDivisionError")) as e:
-            result = self.cal.div(a, b)
+        result = self.cal.div(a, b)
         assert result == expect
 
     @pytest.mark.parametrize("a,b,expect",

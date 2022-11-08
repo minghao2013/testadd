@@ -2,6 +2,7 @@ import allure
 import pytest
 
 from case.base.base import Base
+from case.utils.get_data import get_data
 from case.utils.logs_utils import logger
 
 
@@ -17,12 +18,13 @@ def teardown_module(self):
 @allure.feature("相加功能")
 class TestAdd(Base):
 
+    ADD_DATA, ADD_IDS = get_data("add", "P0", "ids")
+
     #
     # 测试两个整数的用例
-
     @pytest.mark.P0
-    @pytest.mark.parametrize("a,b,expect", [(1, 1, 2), (0.1, 0.9, 1), (-1, -2, -3), (0.9, 1, 1.9)],
-                             ids=["int", "float", "fushu", "float_int"])
+    @pytest.mark.parametrize("a,b,expect", ADD_DATA,
+                             ids=ADD_IDS)
     def test_add_integer(self, a, b, expect):
         logger.info(f"输入参数a={a}，b={b}，期望结果expect={expect}")
         result = self.cal.add(a, b)
